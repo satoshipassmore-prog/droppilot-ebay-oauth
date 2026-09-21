@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DropPilot Authorization Complete</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #102b1e; background: #f1fbf5; }
+    main { max-width: 720px; margin: 56px auto; padding: 40px; background: white; border-radius: 16px; box-shadow: 0 10px 34px #17203314; }
+    code { display: block; overflow-wrap: anywhere; margin: 16px 0; padding: 14px; border-radius: 8px; background: #f2f4f6; color: #17212b; }
+    button { border: 0; border-radius: 8px; padding: 10px 14px; font: inherit; background: #126d3a; color: white; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Authorization complete</h1>
+    <p>You can return to DropPilot. Copy the authorization code below only if DropPilot asks for it.</p>
+    <code id="code">Checking for an authorization code…</code>
+    <button id="copy" hidden>Copy code</button>
+  </main>
+  <script>
+    const code = new URLSearchParams(location.search).get('code');
+    const output = document.querySelector('#code');
+    const button = document.querySelector('#copy');
+    if (code) {
+      output.textContent = code;
+      button.hidden = false;
+      button.addEventListener('click', async () => {
+        await navigator.clipboard.writeText(code);
+        button.textContent = 'Copied';
+      });
+    } else {
+      output.textContent = 'No authorization code was included. Return to DropPilot and review the authorization result.';
+    }
+  </script>
+</body>
+</html>
